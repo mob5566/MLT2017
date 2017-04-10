@@ -70,4 +70,4 @@ plt.ylabel(r'$\phi_2(x)$')
 plt.title(r'$\mathcal{Z}\ space$')
 plt.legend(loc='upper left')
 
-plt.show()
+plt.savefig('q1.png')

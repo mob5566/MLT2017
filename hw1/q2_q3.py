@@ -58,6 +58,8 @@ sol = solvers.qp(Q, p, G, h, A, c)
 
 alpha = np.array(sol['x']).reshape(-1)
 
+print('Hw1 Q.2\n')
+
 print('alpha:')
 print(alpha)
 
@@ -69,13 +71,15 @@ svy = y[svi[0]]
 b = svy - np.sum([alpha[i]*y[i]*ker(x[i], svx) for i in svi])
 print('b = ', b)
 
+print('')
+
 #
 # Question 3
 #
 
 # Hyper-plane
 x2 = np.linspace(-2.4, 2.4, 100)
-x1 = np.array([np.roots([0.533, -2.132, -1.662+0.668*v*v]) for v in x2])
+x1 = np.array([np.roots([0.533, -2.132, -1.662+0.668*v*v]).real for v in x2])
 
 # Plot data
 plt.figure(1, figsize=(7.5, 7.5))
@@ -94,4 +98,4 @@ plt.ylabel(r'$x_2$')
 plt.title(r'$\mathcal{X}\ space$')
 plt.legend(loc='lower right')
 
-plt.show()
+plt.savefig('q3.png')
