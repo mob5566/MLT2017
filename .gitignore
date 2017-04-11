@@ -1,0 +1,20 @@
+#
+# ignore irrelevant files
+#
+
+# data directories
+/**/data
+
+# python temp files
+*.pyc
+
+# vim temp files
+*.vim
+*.swp
+
+# image types
+*.exr
+*.tiff
+*.jpg
+*.png
+
