@@ -45,14 +45,24 @@ for c in C:
   param = svm_parameter('-s 0 -t 2 -c {} -h 0 -g 80'.format(10.**c))
   m = svm_train(prob, param)
 
-  for sv, al in zip(m.get_SV(), m.get_sv_coef()):
-    if not np.isclose(c, al):
-      fsv = sv
-      break
+  b = m.rho[0]
+  sv_coef = [sv_c[0] for sv_c in m.get_sv_coef()]
+  sv = []
+  for v in m.get_SV():
+    t = []
+    for i in range(1, 3):
+      if i in v:
+          t.append(v[i])
+      else: t.append(0)
+    sv.append(t)
 
-  dis = 0.
-  for sv, al in zip(m.get_SV(), m.get_sv_coef()):
-    dis += al[0]*np.exp(-80.*((sv[1]-fsv[1])**2+(sv[2]-fsv[2])**2))
+  for i in range(len(sv_coef)):
+    if abs(sv_coef[i]) != c:
+      break
+  dis = 0.0
+  for x, ay in zip(sv, sv_coef):
+    dis += ay * np.exp(-100 * ((x[0]-sv[i][0])**2 + (x[1]-sv[i][1])**2))
+  dis = abs(dis + y[i]*b)
   D.append(dis)
 
 # Plot the result
