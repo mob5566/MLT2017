@@ -5,6 +5,9 @@
 # data directories
 /**/data
 
+# zip files
+*.zip
+
 # python temp files
 *.pyc
 
