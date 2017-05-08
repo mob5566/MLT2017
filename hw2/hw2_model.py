@@ -5,7 +5,12 @@ Author: Cheng-Shih Wong
 Email:  r04945028@ntu.edu.tw
 
 * Implement learning models used in homework 2
+
   * Least-Squares SVM
+    * Gaussian-RBF kernel
+    * Linear kernel
+
+  * Bagging by uniform aggregation
 
 * 0/1 error
 '''
@@ -50,6 +55,41 @@ class LSSVM(object):
   @staticmethod
   def rbf_kernel(gamma=0.125):
     return lambda x, xp: np.exp(-gamma*np.linalg.norm(x-xp)**2)
+
+  @staticmethod
+  def linear_kernel():
+    return lambda x, xp: np.dot(x, xp)
+
+class Bagging(object):
+  def __init__(self, baseModels):
+    assert(type(baseModels)==list)
+
+    self.baseModels = baseModels
+
+  # Training 
+  def fit(self, X, y):
+
+    assert(type(X)==np.ndarray and len(X.shape)==2)
+    assert(type(y)==np.ndarray and len(y.shape)==2)
+    
+    for md in self.baseModels:
+      trainmask = np.random.randint(0, X.shape[0], X.shape[0])
+
+      md.fit(X[trainmask], y[trainmask])
+  
+  # Prediction
+  def predict(self, X):
+
+    assert(type(X)==np.ndarray and len(X.shape)==2)
+
+    ret = np.zeros(X.shape[0]).reshape(1, -1)
+    
+    for md in self.baseModels:
+      ret += np.sign(md.predict(X))
+    
+    ret[np.isclose(ret, 0)] = 1
+
+    return ret
 
 '''
 ## 1/0 error
