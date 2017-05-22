@@ -119,6 +119,7 @@ class adaboost(object):
     for i in xrange(self.maxiter):
       g = decision_stump()
       idx = g.fit(X, y, weighted, idx)
+      self.u.append(weighted)
 
       # Update
       ypred = g.predict(X)
@@ -128,7 +129,6 @@ class adaboost(object):
 
       self.G.append(g)
       self.alpha.append(alpha)
-      self.u.append(weighted)
 
   # Prediction
   def predict(self, X):
