@@ -148,6 +148,70 @@ class adaboost(object):
 
     return ((ypred>=0).astype(float)*2-1)
 
+'''
+## Decision Tree
+'''
+class dtree(object):
+  def __init__(self):
+    self.isLeaf = False
+    self.val = None
+    self.split_feat = None
+    self.split_val = None
+    self.childs = None
+  
+  def fit(self, X, y):
+
+    N, d = X.shape
+
+    # terminate 
+    if np.all(np.isclose(X-X.mean(axis=0), 0)) or \
+       np.all(np.isclose(y-y.mean(), 0)):
+
+      self.isLeaf = True
+      self.val = (y.sum()>=0).astype(float)*2-1
+      return self
+
+    minImp = np.inf
+
+    for i in np.arange(d):
+      interv = np.unique(X[:, i]) 
+
+      for j in xrange(len(interv)-1):
+        midv = (interv[j]+interv[j+1])*0.5
+        smask = X[:, i] < midv
+        gmask = np.logical_not(smask)
+
+        imp = impurity(y[smask])*smask.sum() +\
+              impurity(y[gmask])*gmask.sum()
+
+        if imp < minImp:
+          minImp = imp
+          self.split_feat = i
+          self.split_val = midv
+          minSmask = smask
+          minGmask = gmask
+    
+    self.childs = [dtree(), dtree()]
+
+    self.childs[0].fit(X[minSmask], y[minSmask])
+    self.childs[1].fit(X[minGmask], y[minGmask])
+
+    return self
+
+  def predict(self, X):
+    if self.isLeaf:
+      return self.val
+    else:
+      smask = X[:, self.split_feat]<self.split_val
+      gmask = np.logical_not(smask)
+      y = np.zeros(len(X))
+      y[smask] = self.childs[0].predict(X[smask])
+      y[gmask] = self.childs[1].predict(X[gmask])
+    return y
+
+def impurity(y):
+  return 1-(np.isclose(1, y).mean())**2-(np.isclose(-1, y).mean())**2
+
 """
 ## Metrics
 """
