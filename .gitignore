@@ -5,6 +5,9 @@
 # data directories
 /**/data
 
+# data file
+*.dat
+
 # zip files
 *.zip
 
