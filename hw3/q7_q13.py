@@ -60,8 +60,9 @@ if __name__ == '__main__':
 
   print('Ein(g_1) = {:.5f}'.format(1-md.accuracy(y, model.G[0].predict(X))))
   print('alpha_1 = {:.5f}'.format(model.alpha[0]))
+  print()
 
-  print('\nQuestion 9.')
+  print('Question 9.')
 
   GEins = []
   ypred = np.zeros(N)
@@ -79,8 +80,9 @@ if __name__ == '__main__':
   plt.cla()
 
   print('Ein(G) = {:.5f}'.format(1.0-md.accuracy(y, model.predict(X))))
+  print()
 
-  print('\nQuestion 10.')
+  print('Question 10.')
 
   U = []
 
@@ -97,3 +99,19 @@ if __name__ == '__main__':
 
   print('U_2 = {:.5f}'.format(U[1]))
   print('U_T = {:.5f}'.format(U[-1]))
+  print()
+
+  print('Question 11.')
+
+  U = []
+
+  plt.title('Question 11')
+  plt.xlabel(r'$t$')
+  plt.ylabel(r'$\epsilon_t$')
+
+  plt.plot(t+1, model.e)
+  plt.savefig('Q11.png')
+  plt.cla()
+
+  print('Minimum epsilon_t = {:.5f}'.format(min(model.e)))
+  print()
