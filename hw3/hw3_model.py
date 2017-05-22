@@ -113,6 +113,7 @@ class adaboost(object):
     self.G = []
     self.alpha = []
     self.u = []
+    self.e = []
 
     # Training
     idx = None
@@ -127,6 +128,7 @@ class adaboost(object):
       alpha = 0.5*np.log((1-e)/e)
       weighted = weighted * np.exp(alpha*(1-2*np.isclose(y, ypred).astype(float)))
 
+      self.e.append(e)
       self.G.append(g)
       self.alpha.append(alpha)
 
