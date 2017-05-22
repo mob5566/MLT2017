@@ -58,8 +58,8 @@ if __name__ == '__main__':
   plt.savefig('Q7.png')
   plt.cla()
 
-  print('Ein(g_1) = {:.3f}'.format(1-md.accuracy(y, model.G[0].predict(X))))
-  print('alpha_1 = {:.3f}'.format(model.alpha[0]))
+  print('Ein(g_1) = {:.5f}'.format(1-md.accuracy(y, model.G[0].predict(X))))
+  print('alpha_1 = {:.5f}'.format(model.alpha[0]))
 
   print('\nQuestion 9.')
 
@@ -78,4 +78,22 @@ if __name__ == '__main__':
   plt.savefig('Q9.png')
   plt.cla()
 
-  print('Ein(G) = {:.3f}'.format(1.0-md.accuracy(y, model.predict(X))))
+  print('Ein(G) = {:.5f}'.format(1.0-md.accuracy(y, model.predict(X))))
+
+  print('\nQuestion 10.')
+
+  U = []
+
+  for i in t:
+    U.append(model.u[i].sum())
+
+  plt.title('Question 10')
+  plt.xlabel(r'$t$')
+  plt.ylabel(r'$U_t$')
+
+  plt.plot(t+1, U)
+  plt.savefig('Q10.png')
+  plt.cla()
+
+  print('U_2 = {:.5f}'.format(U[1]))
+  print('U_T = {:.5f}'.format(U[-1]))
