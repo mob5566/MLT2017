@@ -113,5 +113,38 @@ if __name__ == '__main__':
   plt.savefig('Q11.png')
   plt.cla()
 
-  print('Minimum epsilon_t = {:.5f}'.format(min(model.e)))
+  print('Minimal epsilon_t = {:.5f}'.format(min(model.e)))
+  print()
+
+  print('Question 12.')
+
+  plt.title('Question 12')
+  plt.xlabel(r'$t$')
+  plt.ylabel(r'$E_\mathsf{out}(g_t)$')
+
+  plt.plot(t+1, [1-md.accuracy(testy, model.G[i].predict(testX)) for i in t])
+  plt.savefig('Q12.png')
+  plt.cla()
+
+  print('Eout(g_1) = {:.5f}'.format(1-md.accuracy(testy, model.G[0].predict(testX))))
+  print()
+
+  print('Question 13.')
+
+  GEins = []
+  ypred = np.zeros(len(testX))
+
+  for alpha, g in zip(model.alpha, model.G):
+    ypred += alpha * g.predict(testX)
+    GEins.append(1-md.accuracy(testy, (ypred>=0).astype(float)*2-1))
+
+  plt.title('Question 13')
+  plt.xlabel(r'$t$')
+  plt.ylabel(r'$E_\mathsf{out}(G_t)$')
+
+  plt.plot(t+1, GEins)
+  plt.savefig('Q13.png')
+  plt.cla()
+
+  print('Eout(G) = {:.5f}'.format(1.0-md.accuracy(testy, model.predict(testX))))
   print()
